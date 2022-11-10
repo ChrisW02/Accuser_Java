@@ -1,3 +1,5 @@
+package FunctionalJava;
+
 public class LambdaExpression {
 
     public interface MathLambda{
