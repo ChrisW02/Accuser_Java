@@ -1,4 +1,4 @@
-package FunctionalJava;
+package Day1_FunctionalJava;
 
 public class LambdaExpression {
 

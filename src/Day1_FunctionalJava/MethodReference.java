@@ -1,4 +1,4 @@
-package FunctionalJava;
+package Day1_FunctionalJava;
 
 import org.junit.jupiter.api.Test;
 
