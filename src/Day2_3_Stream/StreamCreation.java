@@ -1,4 +1,4 @@
-package Day2_Stream;
+package Day2_3_Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,6 @@ import java.util.stream.StreamSupport;
 public class StreamCreation {
 
 
-
     public static <T> void show(String title, Stream<T> stream) throws IOException {
         final int SIZE = 10;
         List<T> firstElements = stream.limit(SIZE + 1).toList();
@@ -30,7 +29,7 @@ public class StreamCreation {
 
     public static void main(String[] args) throws IOException {
 
-        Path path = Paths.get("./src/Day2_Stream/A.txt");
+        Path path = Paths.get("./src/Day2_3_Stream/A.txt");
         var contents = Files.readString(path);
 
         List<String> words = List.of(contents.split("\\PL+"));
@@ -63,14 +62,25 @@ public class StreamCreation {
     @Test
     public void streamTest() throws IOException {
 
-        Path path = Paths.get("./src/Day2_Stream/A.txt");
-        var contents = new String(Files.readAllBytes(path),StandardCharsets.UTF_8);
+        // 按文件创建流
+        Path path = Paths.get("./src/Day2_3_Stream/A.txt");
+        var contents = Files.readString(path);
+        Stream<String> words = Stream.of(contents.split("\\PL+"));
 
+        // 创建空流
+        Stream<String> emptyStream = Stream.empty();
         String[] strings = new String[]{"Hello","Girls","Boys"};
         // 按数组创建流
         Stream<String> stringStream = Stream.of(strings);
         show("stringStream",stringStream);
-        Stream<String> emptyStream = Stream.empty();
+
+        // 按Collection创建流
+        List<String> duplicate = new ArrayList<>();
+        duplicate.add("Chris");
+        duplicate.add("Paul");
+        duplicate.add("Chris");
+        Stream<String> collectionStream = duplicate.stream();
+        show("collectionStream",collectionStream);
 
         // 创建常量的流
         Stream<String> echos = Stream.generate(()-> "Echo");
@@ -96,10 +106,17 @@ public class StreamCreation {
         show("rootDirectoris",rootDirectories);
 
         // Iterator+Spliterators创建流
-        Iterator<Path> iterator = Paths.get("./src/Day2_Stream/A.txt").iterator();
+        Iterator<Path> iterator = path.iterator();
         Stream<Path> pathComponents = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
                 iterator,Spliterator.ORDERED),false);
         show("pathComponents",pathComponents);
+
+        Integer[] ints = {2,1,5,3,2,4};
+        Stream<Integer> integerStream1 = Stream.of(ints);
+        show("integerStream1",integerStream1);
+        ArrayList<Integer> integers = new ArrayList<>(List.of(ints));
+        Stream<Integer> integerStream2 = integers.stream();
+        show("integerStream2",integerStream2);
     }
 
     @Test
