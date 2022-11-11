@@ -111,6 +111,7 @@ public class StreamCreation {
                 iterator,Spliterator.ORDERED),false);
         show("pathComponents",pathComponents);
 
+        // 创建Integer类的流
         Integer[] ints = {2,1,5,3,2,4};
         Stream<Integer> integerStream1 = Stream.of(ints);
         show("integerStream1",integerStream1);
