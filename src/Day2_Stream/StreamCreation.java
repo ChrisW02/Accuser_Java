@@ -130,7 +130,7 @@ public class StreamCreation {
         words.add("Hello");
         words.add("Girls");
         words.add("Boys");
-        Stream<String> flatResult = words.stream().flatMap(w -> codePoints(w));
+        Stream<String> flatResult = words.stream().flatMap(w -> codePoints(w)); // StreamCreation::codePoints
         show("flatResult",flatResult);
     }
 }
