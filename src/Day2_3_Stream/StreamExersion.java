@@ -42,6 +42,23 @@ public class StreamExersion extends StreamCreation{
         Stream<Integer> peekInts = Stream.of(ints)
                 .peek(e-> System.out.println("Fetching: "+e));
         show("peekInts",peekInts);
+
+
+    }
+
+    @Test
+    public void whileStream() throws IOException{
+        // takeWhile() 和 dropWhile() 高效选择/抛弃流中的元素，特别是在排序数组中！
+        Integer[] whileInts = {
+                -1,0,1,3,4,6,8,10
+        };
+        Stream<Integer> takeIntsStream = Stream.of(whileInts).takeWhile(i -> i<5);
+        // 遇到第一个不符合条件时停止！
+        show("takeIntsStream",takeIntsStream);
+
+        Stream<Integer> dropIntsStream = Stream.of(whileInts).dropWhile(i -> i<5);
+        // 遇到第一个不符合条件时停止，并返回剩余的元素！
+        show("dropIntsStream",dropIntsStream);
     }
 
     @Test
