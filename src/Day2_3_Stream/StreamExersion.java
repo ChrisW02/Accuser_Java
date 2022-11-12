@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StreamExersion extends StreamCreation{
 
     public static void main(String[] args) throws IOException {
 
-        // stream.limit(n)限制流在n个元素后结束
+        // stream.limit(n)截断前n个元素
         Stream<Double> randoms = Stream.generate(Math::random).limit(4);
         show("randoms",randoms);
 
@@ -62,6 +63,48 @@ public class StreamExersion extends StreamCreation{
     }
 
     @Test
+    public void MapTest() throws IOException {
+        // map():对每个元素应用操作
+        List<String> words = new ArrayList<>();
+        words.add("Hello");
+        words.add("Girls");
+        words.add("Boys");
+        Stream<String> lowerCaseMap = words.stream().map(String::toLowerCase);
+        show("lowerCaseMap",lowerCaseMap);
+    }
+
+    // 将字符串转化为字符串流
+    public static Stream<String> codePoints(String s){
+        var res = new ArrayList<String>();
+        int i = 0;
+        while(i<s.length()){
+            int j = s.offsetByCodePoints(i,1);
+            res.add(s.substring(i,j));
+            i = j;
+        }
+        return res.stream();
+    }
+
+    @Test
+    public void flatMapTest() throws IOException{
+        // flatmap(): 将每个元素都转化成另一个流，再把所有的流连起来成为一个流
+        List<String> words = new ArrayList<>();
+        words.add("Hello");
+        words.add("Girls");
+        words.add("Boys");
+        Stream<String> flatResult = words.stream().flatMap(StreamExersion::codePoints); // StreamCreation::codePoints
+        show("flatResult",flatResult);
+
+        // 利用map+flatMap+distinct找出不重复的字符！
+        Stream<String> distinctFlatStream = words.stream()
+                .map(e->e.split(""))
+                .flatMap(Arrays::stream)
+                .distinct();
+        show("distinctFlatStream",distinctFlatStream);
+
+    }
+
+    @Test
     public void terminateStream() throws IOException {
 
         // count, max, min 都是约简方式
@@ -89,9 +132,30 @@ public class StreamExersion extends StreamCreation{
         // startsWith区分大小写，找不到会return Optional.empty
         System.out.println(startWith);
 
-        // findAny找到任意一个匹配的值，在并行处理时有效
+        // findAny找到任意一个匹配的值，相对于findFirst，在并行处理时额外有效
         Stream<String> wordsStream3 = words.stream();
         Optional<String> startAny = wordsStream3.filter(e -> e.startsWith("e")).findAny();
         System.out.println(startAny);
+    }
+
+    @Test
+    public void cubeStream() throws IOException{
+        // 计算每个数字的立方
+        ArrayList<Integer> roots = new ArrayList<>();
+        roots.add(1);roots.add(2);roots.add(3);roots.add(4);roots.add(5);
+        List<Integer> cubes = roots.stream().map(e->e*e*e).toList();
+        cubes.forEach(System.out::println);
+    }
+
+    @Test
+    public void permutationStream() throws IOException{
+        // 给定两个数字列表，返回所有排列后的数对
+        List<Integer> first = Arrays.asList(1,2,3);
+        List<Integer> second = Arrays.asList(4,5);
+        List<int[]> pairs = first.stream()
+                .flatMap(i -> second.stream().map(j -> (new int[]{i, j}))).toList();
+        for(int[] pair:pairs){
+            System.out.println(pair[0]+" "+pair[1]);
+        }
     }
 }

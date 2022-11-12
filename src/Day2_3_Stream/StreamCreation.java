@@ -119,38 +119,4 @@ public class StreamCreation {
         Stream<Integer> integerStream2 = integers.stream();
         show("integerStream2",integerStream2);
     }
-
-    @Test
-    public void MapTest() throws IOException {
-        // map():对每个元素应用操作
-        List<String> words = new ArrayList<>();
-        words.add("Hello");
-        words.add("Girls");
-        words.add("Boys");
-        Stream<String> lowerCaseMap = words.stream().map(String::toLowerCase);
-        show("lowerCaseMap",lowerCaseMap);
-    }
-
-    // 将字符串转化为字符串流
-    public static Stream<String> codePoints(String s){
-        var res = new ArrayList<String>();
-        int i = 0;
-        while(i<s.length()){
-            int j = s.offsetByCodePoints(i,1);
-            res.add(s.substring(i,j));
-            i = j;
-        }
-        return res.stream();
-    }
-
-    @Test
-    public void flatMapTest() throws IOException{
-        // flatmap(): 将每个元素都转化成另一个流，再把所有的流连起来成为一个流
-        List<String> words = new ArrayList<>();
-        words.add("Hello");
-        words.add("Girls");
-        words.add("Boys");
-        Stream<String> flatResult = words.stream().flatMap(w -> codePoints(w)); // StreamCreation::codePoints
-        show("flatResult",flatResult);
-    }
 }
