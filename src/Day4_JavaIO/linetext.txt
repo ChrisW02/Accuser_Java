@@ -1,0 +1,3 @@
+My name is Chris.
+I am studying Java.
+Welcome to join me!
