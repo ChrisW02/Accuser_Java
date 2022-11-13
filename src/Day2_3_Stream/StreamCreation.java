@@ -14,7 +14,6 @@ import java.util.stream.StreamSupport;
 
 public class StreamCreation {
 
-
     public static <T> void show(String title, Stream<T> stream) throws IOException {
         final int SIZE = 10;
         List<T> firstElements = stream.limit(SIZE + 1).toList();
@@ -55,7 +54,6 @@ public class StreamCreation {
         int[] arr = integers.stream().mapToInt(Integer::intValue).toArray();
         // 数组转化为List
         List<Integer> list = IntStream.of(arr).boxed().toList();
-
 
         }
 
